@@ -11,7 +11,7 @@ const routes: Routes = [
   {path:'about', component:AboutComponent},
   {path:'menu',component:MenuComponent},
   {path:'dishdetail',component:DishdetailComponent},
-  {path:'contact',component:ContactComponent},
+  {path:'contactus',component:ContactComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 

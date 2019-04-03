@@ -6,7 +6,7 @@
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
 
-  <div fxFlex="40">
+  <div fxFlex="40" *ngIf="dish">
     <!-- <p>Display the details of the Dish here</p> -->
     <mat-card >
     <mat-card-header>
@@ -34,7 +34,7 @@
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
 
-  <div fxFlex="40">
+  <div fxFlex="40" *ngIf="dish">
     <!-- <p>Display the list of comments here</p> -->
     <mat-card >
       <mat-card-header>
@@ -49,9 +49,35 @@
           </p>
           <p matLine><b>--{{comment.author}} {{comment.date | date}}</b></p>
         </mat-list-item>
+        <mat-list-item *ngIf="commentForm">
+            <p matLine>{{ commentForm.value.comment}}</p>
+            <p matLine> {{ commentForm.value.rating}} Stars</p>
+            <p matLine>-- {{commentForm.value.author}}</p>
+          </mat-list-item>
       </mat-list>
       </mat-card-content>
     </mat-card>
+    <form novalidate [formGroup]="commentForm" #cform="ngForm" (ngSubmit)="onSubmit()">
+        <p>  
+            <mat-form-field class="half-width">
+                <input matInput formControlName="author" placeholder="Author Name" type="text" required>
+                <mat-error *ngIf="formErrors.author">{{ formErrors.author }}</mat-error>
+            </mat-form-field>
+            </p>
+            <table>
+          <tr><td>
+        <mat-slider min="0" max="5" step="1" value="5" thumbLabel tickInterval="1" formControlName = "rating"></mat-slider>
+        </td></tr></table>
+        <p>
+            <mat-form-field class="full-width">
+                <textarea matInput formControlName = "comment" placeholder = "Your Comment" rows=12 required >
+                </textarea>
+                <mat-error *ngIf="formErrors.comment">{{ formErrors.comment }}</mat-error>
+            </mat-form-field>
+        </p>
+        <button type="submit" mat-button class="background-primary text-floral-white"
+        [disabled]="commentForm.invalid">Submit</button>
+    </form>
   </div>
   <div [hidden]="dish">
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>

@@ -99,13 +99,16 @@ export class DishdetailComponent implements OnInit {
     
     this.comment = this.commentForm.value;
         console.log(this.comment);
-        this.dishcopy.comments.push(this.comment)
-        this.dish = this.dishcopy;
-        console.log(this.dish)
+        this.dishcopy.comments.push(this.comment);
+        this.dishService.putDish(this.dishcopy)
+        .subscribe( dish => {
+          this.dish = dish; this.dishcopy = dish;
+        },
+        errmess => { this.dish = null ; this.dishcopy = null; this.errMess = <any>errmess;})
+        this.commentFormDirective.resetForm();
         this.commentForm.reset({
           rating:"5"
         });
-        this.commentFormDirective.resetForm();
   }
 }
 

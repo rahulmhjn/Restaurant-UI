@@ -21,6 +21,7 @@ export class DishdetailComponent implements OnInit {
   comment:string;
   value:number;
   dishcopy = null;
+  errMess:string;
   @ViewChild('cform') commentFormDirective;
   formErrors = {
     'author': '',
@@ -48,7 +49,8 @@ export class DishdetailComponent implements OnInit {
       .subscribe((dishIds) => this.dishIds = dishIds);
     let id = this.route.params
       .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe((dish) => {this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id);})
+      .subscribe((dish) => {this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id);},
+      errmess => this.errMess = <any>errmess)
   }
 
   setPrevNext(dishId: string) {

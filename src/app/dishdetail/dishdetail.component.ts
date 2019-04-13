@@ -6,6 +6,7 @@ import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { visibility, flyInOut, expand } from '../animations/app-animations';
+import { Comment } from '../shared/comment';
 
 @Component({
   selector: 'app-dishdetail',
@@ -28,7 +29,7 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
   commentForm: FormGroup;
-  comment:string;
+  comment:Comment;
   value:number;
   dishcopy = null;
   errMess:string;
@@ -79,7 +80,6 @@ export class DishdetailComponent implements OnInit {
     this.commentForm = this.fb.group({
       author: ['',[Validators.required,Validators.maxLength(25),Validators.minLength(2)]],
       rating: "5",
-      date: new Date(),
       comment:['',[Validators.required]]
     });
     this.commentForm.valueChanges
@@ -110,6 +110,7 @@ export class DishdetailComponent implements OnInit {
   onSubmit() {
     
     this.comment = this.commentForm.value;
+    this.comment.date = new Date().toISOString();
         console.log(this.comment);
         this.dishcopy.comments.push(this.comment);
         this.dishService.putDish(this.dishcopy)
